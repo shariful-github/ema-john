@@ -5,6 +5,7 @@ import { faCartPlus } from '@fortawesome/free-solid-svg-icons'
 
 const Product = (props) => {
     const { image, title, price, category, rating } = props.product;
+    const handleBtnCart = props.handleBtnCart;
     return (
         <div className='border border-2 border-slate-400 rounded-lg flex flex-col justify-between'>
             <div className="p-2">
@@ -16,7 +17,7 @@ const Product = (props) => {
                     <p>Rating: {rating.rate} Star</p>
                 </div>
             </div>
-            <button className='bg-orange-200 w-full h-11 hover:bg-orange-300 rounded-b-md border border-slate-400'>Add to Cart <FontAwesomeIcon icon={faCartPlus} />
+            <button onClick={() => handleBtnCart(props.product)} className='bg-orange-200 w-full h-11 hover:bg-orange-300 rounded-b-md border border-slate-400'>Add to Cart <FontAwesomeIcon icon={faCartPlus} />
             </button>
         </div>
     );
