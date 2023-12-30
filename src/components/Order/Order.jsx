@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import Cart from '../Cart/Cart';
 import ReviewItem from '../ReviewItem/ReviewItem';
+import { removeFromLocalStorage } from '../../utilities/manageLocalStorage';
 
 const Order = () => {
-    const cart = useLoaderData();
+    const storedCart = useLoaderData();
+    const [cart, setCart] = useState(storedCart);
+
+    const handleDeleteProduct = (id) =>{
+        const remainingProducts = cart.filter(product => product.id !== id);
+        setCart(remainingProducts);
+        removeFromLocalStorage(id);
+    }
+
     return (
         <div className="grid grid-cols-5 gap-2">
             <div className="col-span-4">
@@ -13,6 +22,7 @@ const Order = () => {
                     cart.map(product => <ReviewItem
                         key={product.id}
                         product={product}
+                        handleDeleteProduct={handleDeleteProduct}
                     ></ReviewItem>)
                 }
             </div>

@@ -1,11 +1,12 @@
+/* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
 
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 
-const ReviewItem = ({ product }) => {
-    const { title, price, image, quantity } = product;
+const ReviewItem = ({ product, handleDeleteProduct }) => {
+    const { id, title, price, image, quantity } = product;
 
     return (
         <div className='border border-zinc-400 w-4/6 h-28 my-5 mx-auto rounded-md flex justify-between items-center'>
@@ -18,7 +19,7 @@ const ReviewItem = ({ product }) => {
                 </div>
             </div>
             <div className='mr-5'>
-                <button className='bg-red-200 w-12 h-12 rounded-full text-red-400 text-2xl'>
+                <button onClick={() => handleDeleteProduct(id)} className='bg-rose-200 w-12 h-12 rounded-full text-rose-500 text-2xl hover:text-[26px]'>
                     <FontAwesomeIcon icon={faTrashCan} />
                 </button>
             </div>

@@ -29,7 +29,7 @@ const addToLocalStorage = (id) =>{
 const removeFromLocalStorage = (id) =>{
     let shoppingItems = getShoppingItems();
 
-    if(shoppingItems){
+    if(id in shoppingItems){
         delete shoppingItems[id];
         localStorage.setItem('shopping-items', JSON.stringify(shoppingItems));
     }
