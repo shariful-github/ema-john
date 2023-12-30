@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Product from '../Product/Product';
 import Cart from '../Cart/Cart';
-import { addToLocalStorage, getShoppingItems } from '../../utilities/manageLocalStorage';
+import { addToLocalStorage, deleteShoppingItems, getShoppingItems } from '../../utilities/manageLocalStorage';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -11,6 +14,11 @@ const Shop = () => {
     const tempCart = [...cart, product];
     setCart(tempCart);
     addToLocalStorage(product.id);
+  }
+
+  const handleClearCart = () => {
+    setCart([]);
+    deleteShoppingItems();
   }
 
   useEffect(() => {
@@ -32,7 +40,7 @@ const Shop = () => {
       }
     }
     setCart(savedCart);
-  },[products])
+  }, [products])
 
 
   return (
@@ -48,7 +56,17 @@ const Shop = () => {
         }
       </div>
       <div className="col-span-1 bg-orange-200 pl-4 h-screen w-64 sticky top-0">
-        <Cart cart={cart}></Cart>
+        <Cart
+          cart={cart}
+          handleClearCart={handleClearCart}
+        >
+          <Link to={'/order'}>
+            <button className='text-left p-3 bg-amber-500 text-white w-11/12 h-11 rounded-md text-base font-semibold mt-3 hover:bg-amber-600 flex justify-between items-center'>
+              <span>Review Order</span>
+              <span><FontAwesomeIcon icon={faArrowRight} /></span>
+            </button>
+          </Link>
+        </Cart>
       </div>
     </div>
   );
