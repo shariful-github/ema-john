@@ -10,6 +10,7 @@ const Header = () => {
             <Link className="ml-7 hover:text-orange-300" to="/order">Order</Link>
             <Link className="ml-7 hover:text-orange-300" to="/inventory">Inventory</Link>
             <Link className="ml-7 hover:text-orange-300" to="/login">Login</Link>
+            <Link className="ml-7 hover:text-orange-300" to="/signup">Sign Up</Link>
           </div>
       </div>
     </div>
