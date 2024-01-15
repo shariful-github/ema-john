@@ -1,9 +1,53 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../providers/AuthProvider';
 
 const SignUp = () => {
+    const { createUser } = useContext(AuthContext);
+    const [error, setError] = useState('');
+
     const handleOnSubmit = (event) => {
         event.preventDefault();
+
+        const email = event.target.email.value;
+        const password = event.target.password.value;
+        const confirmPassword = event.target.confirmPassword.value;
+
+        setError('');
+        if (password !== confirmPassword) {
+            setError('Password did not match');
+            return;
+        }
+        else if (password.length < 6) {
+            setError('Password should be at least 6 digit');
+            return;
+        }
+        else if (!/(?=.*[a-z])/.test(password)) {
+            setError('Please add at least one lowercase');
+            return;
+        }
+        else if (!/(?=.*[A-Z])/.test(password)) {
+            setError('Please add at least one Uppercase');
+            return;
+        }
+        else if (!/(?=.*[0-9])/.test(password)) {
+            setError('Please add at least one Number');
+            return;
+        }
+        else if (!/(?=.*[^A-Za-z0-9])/.test(password)) {
+            setError('Please add at least one special character');
+            return;
+        }
+
+        createUser(email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                console.log(user);
+            })
+            .catch((error) => {
+                const errorMessage = error.message;
+                setError(errorMessage);
+            });
 
     }
 
@@ -15,7 +59,7 @@ const SignUp = () => {
                     <label htmlFor="email" className='block m-1'>Email</label>
                     <input type="email"
                         name='email'
-                        className='border border-slate-400 rounded-md w-full h-12 p-3 focus:outline-orange-200' 
+                        className='border border-slate-400 rounded-md w-full h-12 p-3 focus:outline-orange-200'
                     />
                 </div>
                 <div className='my-5'>
@@ -39,6 +83,9 @@ const SignUp = () => {
             <div className='text-center mt-1'>
                 <small>Already have an Account<Link to={'/login'} className='text-orange-400'> Login</Link></small>
             </div>
+            {error &&
+                <p className='text-center text-red-500'>{error}</p>
+            }
         </div>
     );
 };
