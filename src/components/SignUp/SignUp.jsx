@@ -81,7 +81,7 @@ const SignUp = () => {
                 <input type="submit" value='Sign Up' className='mt-4 w-full h-12 rounded-md font-semibold bg-orange-200 hover:bg-orange-300 text-slate-800 cursor-pointer' />
             </form>
             <div className='text-center mt-1'>
-                <small>Already have an Account<Link to={'/login'} className='text-orange-400'> Login</Link></small>
+                <small>Already have an Account?<Link to={'/login'} className='text-orange-400'> Login</Link></small>
             </div>
             {error &&
                 <p className='text-center text-red-500'>{error}</p>
