@@ -35,9 +35,18 @@ async function run() {
       res.send(result);
     })
 
+
     app.get('/productscount', async(req, res) =>{
       const count = await productCollection.estimatedDocumentCount();
       res.send({count});
+    })
+
+    app.post('/cartProducts', async(req, res) =>{
+      const idsString = req.body;
+      const ids = idsString.map(id => Number(id)); //converts id from string to number
+      const query = {id: {$in: ids}};
+      const cartProducts = await productCollection.find(query).toArray();
+      res.send(cartProducts);
     })
 
     // Send a ping to confirm a successful connection

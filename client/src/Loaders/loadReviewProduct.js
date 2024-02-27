@@ -1,23 +1,19 @@
 import { getShoppingItems } from "../utilities/manageLocalStorage";
 
 const loadReviewProduct = async () =>{
-    const loadedProducts = await fetch('http://localhost:5000/products');
-    const products = await loadedProducts.json();
-    
     const storedItems = getShoppingItems();
+    const cartProductsIds = Object.keys(storedItems);
 
-    const savedItems = [];
-    for(const id in storedItems){
-        const addedItem = products.find(product => product.id == id)
-        
-        if(addedItem){
-            const quantity = storedItems[id]
-            addedItem.quantity = quantity;
-            savedItems.push(addedItem);
-        }
-    }
+    const loadedProducts = await fetch('http://localhost:5000/cartProducts', {
+        method: 'POST',
+        headers:{
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify(cartProductsIds)
+    });
+    const products = await loadedProducts.json();
 
-    return savedItems;
+    return products;
 }
 
 export default loadReviewProduct;
