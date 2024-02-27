@@ -7,11 +7,13 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLoaderData } from 'react-router-dom';
 
 const Shop = () => {
+  const loadedProduct = useLoaderData();
+  const [cart, setCart] = useState(loadedProduct);
   const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState([]);
-  const { count: totalProducts } = useLoaderData();
+  const [totalProducts, setTotalProducts] = useState(0);
   const [productsPerPage, setProductsPerPage] = useState(10);
   const noOfPages = Math.ceil(totalProducts / productsPerPage);
+  console.log('noOfPages: ', noOfPages, 'totalProducts', totalProducts, 'productsPerPage', productsPerPage);
   const pages = [...Array(noOfPages).keys()];
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -34,19 +36,10 @@ const Shop = () => {
   }, [currentPage, productsPerPage])
 
   useEffect(() => {
-    const storedItems = getShoppingItems();
-    const savedCart = [];
-
-    for (const id in storedItems) {
-      const addedProduct = products.find(product => product.id == id);
-      if (addedProduct) {
-        const quantity = storedItems[id];
-        addedProduct.quantity = quantity;
-        savedCart.push(addedProduct)
-      }
-    }
-    setCart(savedCart);
-  }, [products])
+    fetch('http://localhost:5000/productscount')
+      .then((res) => res.json())
+      .then((data) => setTotalProducts(data.count))
+  }, [])
 
   const handleProductPerPage = (e) => {
     setProductsPerPage(e.target.value);
@@ -96,11 +89,15 @@ const Shop = () => {
       <div className='text-center'>
         <button onClick={() => handlePrevious()} className="btn border-gray-400 bg-white mr-3">Previous</button>
         {
-          pages.map(page => <button
-            onClick={() => setCurrentPage(page)}
-            className={`btn border-gray-400 mr-3 hover:bg-amber-500 ${currentPage === page ? 'bg-amber-500' : 'bg-white'}`}
-            key={page}
-          >{page}</button>)
+          pages.map(page =>
+            <button
+              onClick={() => setCurrentPage(page)}
+              className={
+                `btn border-gray-400 mr-3 hover:bg-amber-500 
+                ${currentPage === page ? 'bg-amber-500' : 'bg-white'}`
+              }
+              key={page}
+            >{page + 1}</button>)
         }
         <select className='border border-gray-400 p-3' value={productsPerPage} onChange={handleProductPerPage}>
           <option value="5">5</option>

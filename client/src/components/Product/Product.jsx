@@ -6,9 +6,9 @@ import { faCartPlus } from '@fortawesome/free-solid-svg-icons'
 const Product = (props) => {
     const { image, title, price, category, rating } = props.product;
     const handleBtnCart = props.handleBtnCart;
-    
+
     return (
-        <div className='border border-2 border-slate-400 rounded-lg flex flex-col justify-between'>
+        <div className='border-2 border-slate-400 rounded-lg flex flex-col justify-between'>
             <div className="p-2">
                 <img className='w-56 h-[250px] mx-auto my-5' src={image} alt="" />
                 <div className='text-slate-700'>
