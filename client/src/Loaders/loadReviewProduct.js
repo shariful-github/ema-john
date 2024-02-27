@@ -1,7 +1,7 @@
 import { getShoppingItems } from "../utilities/manageLocalStorage";
 
 const loadReviewProduct = async () =>{
-    const loadedProducts = await fetch('https://fakestoreapi.com/products');
+    const loadedProducts = await fetch('http://localhost:5000/products');
     const products = await loadedProducts.json();
     
     const storedItems = getShoppingItems();
